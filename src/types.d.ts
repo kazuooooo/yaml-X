@@ -4,6 +4,7 @@ declare global {
   type YamlItem = {
     key: string,
     value: string,
-    lineNumber: number
+    lineNumber: number,
+    path: string
   };
 }

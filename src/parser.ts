@@ -3,6 +3,7 @@ import { flattenDeep } from 'lodash';
 
 export class Parser {
   lineCounter: LineCounter = new LineCounter();
+  constructor(readonly path: string) { }
 
   parse(rawYml: string): YamlItem[] {
     const contents = parseDocument(rawYml, { lineCounter: this.lineCounter }).contents as YAMLMap;
@@ -16,12 +17,13 @@ export class Parser {
    * @returns 
    */
   private parseNode(node: YAMLMap, parentKey: string | null = null): any[] {
-    return node.items.map((item, index) => {
+    return node.items.map((item) => {
       if (item.value instanceof Scalar) {
         return {
           key: `${parentKey}.${(item.key as any).value}`,
           value: item.value.value,
-          lineNumber: this.findLineNumber(item.value)
+          lineNumber: this.findLineNumber(item.value),
+          path: this.path
         };
       }
       if (item.value instanceof YAMLMap) {
