@@ -37,6 +37,6 @@ export class Parser {
     const valueStartPosition = value.range![0];
     const lineStarts = this.lineCounter.lineStarts;
     const lineNumber = lineStarts.findIndex((l) => l > valueStartPosition);
-    return lineNumber === -1 ? lineStarts.length : lineNumber;
+    return lineNumber === -1 ? lineStarts.length : lineNumber - 1;
   }
 }
