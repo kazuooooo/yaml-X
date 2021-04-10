@@ -1,8 +1,9 @@
 import { Location } from 'vscode';
 
 declare global {
-  type YmlItem = {
+  type YamlItem = {
+    key: string,
     value: string,
-    location: Location
+    lineNumber: number
   };
 }

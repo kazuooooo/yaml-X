@@ -29,6 +29,22 @@
         "${workspaceFolder}/out/test/**/*.js"
       ],
       "preLaunchTask": "${defaultBuildTask}"
-    }
+    },
+    // Mocha(yarn run serve_for_testでemulator 起動した状態で利用)
+    {
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "name": "Mocha",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
+      "args": [
+        "${workspaceFolder}/out/test/unit/${fileBasenameNoExtension}.test.js"
+      ],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceRoot}/out/**/*.js"
+      ],
+      "console": "integratedTerminal",
+    },
   ]
 }
