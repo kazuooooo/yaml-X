@@ -19,10 +19,9 @@ import { parse } from 'yaml';
 import { Parser } from "./parser";
 import { flattenDeep, isUndefined, isEmpty, compact, isNull } from 'lodash';
 
-
+const config = workspace.getConfiguration("yaml-X");
 export async function activate(context: ExtensionContext) {
   let yamlItems: YamlItem[] = await parseYamlFiles();
-
   const completions = compact(yamlItems.map((i) => {
     const item = i;
     try{
@@ -57,6 +56,7 @@ export async function activate(context: ExtensionContext) {
   // Definition
   const definitionProvider = languages.registerDefinitionProvider({ scheme: 'file', language: 'javascript' }, {
     provideDefinition(document: TextDocument, position: Position, token: CancellationToken) {
+
       try{
         // Read focused line
         const line = document.lineAt(position);
@@ -98,7 +98,8 @@ const parseYamlFiles = async (): Promise<YamlItem[]> => {
   if (!folder) { return []; }
 
   // List yml,yaml file uris in the folder
-  const relativePath = new RelativePattern(folder, '**/*.{yml,yaml}');
+  console.log("config", config);
+  const relativePath = new RelativePattern(folder, `${config.targetDir}/**/*.{yml,yaml}`);
   const uris = await workspace.findFiles(relativePath);
 
   // Parse yaml files to YamlItems

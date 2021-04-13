@@ -15,12 +15,16 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "yml.helloWorld",
-        "title": "Hello World"
+    "configuration": {
+      "title": "yaml-X",
+      "properties": {
+        "yaml-X.targetDir": {
+          "type": "string",
+          "default": null,
+          "description": "Target Yaml dir. Relative path from project root dir. ⚠️Do not need ./ e.g) src/locale"
+        }
       }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
