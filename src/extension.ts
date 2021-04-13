@@ -15,9 +15,9 @@ import {
   CompletionItemKind,
   window,
 } from 'vscode';
-import { parse } from 'yaml';
 import { Parser } from "./parser";
-import { flattenDeep, isUndefined, isEmpty, compact, isNull } from 'lodash';
+import { flattenDeep, isUndefined, isEmpty, compact } from 'lodash';
+import { excludeTopKey } from './helper';
 
 const config = workspace.getConfiguration("yaml-X");
 export async function activate(context: ExtensionContext) {

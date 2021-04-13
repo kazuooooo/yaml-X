@@ -6,3 +6,4 @@ hoge:
 foo:
   jit: "Jit"
   suki: "suki"
+top: "value"

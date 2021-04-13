@@ -22,6 +22,11 @@
           "type": "string",
           "default": null,
           "description": "Target Yaml dir. Relative path from project root dir. ⚠️Do not need ./ e.g) src/locale"
+        },
+        "yaml-X.ignoreTopKeyForCompletion": {
+          "type": "boolean",
+          "default": false,
+          "description": "Ignore top key competion. It's useful if you use locale file which has top key like en.xxxx.yyyy"
         }
       }
     }

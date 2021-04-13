@@ -19,8 +19,9 @@ export class Parser {
   private parseNode(node: YAMLMap, parentKey: string | null = null): any[] {
     return node.items.map((item) => {
       if (item.value instanceof Scalar) {
+        const key = parentKey !== null ? `${parentKey}.${(item.key as any).value}` : (item.key as any).value;
         return {
-          key: `${parentKey}.${(item.key as any).value}`,
+          key,
           value: item.value.value,
           lineNumber: this.findLineNumber(item.value),
           path: this.path
