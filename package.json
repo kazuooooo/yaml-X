@@ -23,10 +23,15 @@
           "default": null,
           "description": "Target Yaml dir. Relative path from project root dir. ⚠️Do not need ./ e.g) src/locale"
         },
-        "yaml-X.ignoreTopKeyForCompletion": {
+        "yaml-X.excludeTopKeyForCompletion": {
           "type": "boolean",
           "default": false,
           "description": "Ignore top key competion. It's useful if you use locale file which has top key like en.xxxx.yyyy"
+        },
+        "yaml-X.yamlKeyArgFunctions": {
+          "type": "array",
+          "default": [],
+          "description": "Function name of it use yaml key as argument. e.g) i18n.t"
         }
       }
     }

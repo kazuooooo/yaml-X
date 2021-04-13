@@ -63,7 +63,9 @@ export async function activate(context: ExtensionContext) {
 
         // Try to extract yaml key with Regex
         // TODO: hanlde single quatation
-        const result = line.text.match(/.*i18n.t\("(?<yamlKey>.*)"\).*/);
+        const yamlKeyArgFunctions = config.yamlKeyArgFunctions;
+        const regex = `.*${yamlKeyArgFunctions[0]}\\(\"(?<yamlKey>.*)\"\\).*`;
+        const result = line.text.match(regex);
         const yamlKey = result?.groups?.yamlKey;
         // Return if not yamlKey
         if (isUndefined(yamlKey)) { 
