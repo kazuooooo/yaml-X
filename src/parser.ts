@@ -29,7 +29,14 @@ export class Parser {
       }
       if (item.value instanceof YAMLMap) {
         const key = (item.key as any).value;
-        return this.parseNode(item.value, parentKey ? `${parentKey}.${key}` : key);
+        return [
+          {
+            key,
+            value: null,
+            lineNumber: this.findLineNumber(item.key),
+            path: this.path
+          },
+          this.parseNode(item.value, parentKey ? `${parentKey}.${key}` : key)];
       }
     });
   }
@@ -38,6 +45,6 @@ export class Parser {
     const valueStartPosition = value.range![0];
     const lineStarts = this.lineCounter.lineStarts;
     const lineNumber = lineStarts.findIndex((l) => l > valueStartPosition);
-    return lineNumber === -1 ? lineStarts.length : lineNumber - 1;
+    return lineNumber === -1 ? lineStarts.length : lineNumber;
   }
 }
