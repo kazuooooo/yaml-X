@@ -16,12 +16,20 @@ import {
   window,
 } from 'vscode';
 import { Parser } from "./parser";
-import { flattenDeep, isUndefined, isEmpty, compact } from 'lodash';
-import { excludeTopKey } from './helper';
+import { flattenDeep, isUndefined, isEmpty, compact, throttle } from 'lodash';
 
 const config = workspace.getConfiguration("yaml-X");
 export async function activate(context: ExtensionContext) {
+  // Initialize
   let yamlItems: YamlItem[] = await parseYamlFiles();
+
+  const reloadItems = throttle(async (e) => {
+    if (!e?.document.uri.path.match(/ya?ml$/)) { return; }
+    yamlItems = await parseYamlFiles();
+    console.log(`${yamlItems.length} items loaded`);
+  }, 1000);
+  workspace.onDidChangeTextDocument(reloadItems);
+
   const completions = compact(yamlItems.map((i) => {
     const item = i;
     try {
@@ -113,6 +121,10 @@ const parseYamlFiles = async (): Promise<YamlItem[]> => {
   console.log("config", config);
   const relativePath = new RelativePattern(folder, `${config.targetDir}/**/*.{yml,yaml}`);
   const uris = await workspace.findFiles(relativePath);
+
+  if (uris.length === 0) {
+    window.showWarningMessage(`No yml/yaml files found. Plz check settings yaml-X.targetDir correctly.`);
+  }
 
   // Parse yaml files to YamlItems
   const items = await Promise.all(
