@@ -24,7 +24,7 @@ export async function activate(context: ExtensionContext) {
   let yamlItems: YamlItem[] = await parseYamlFiles();
   const completions = compact(yamlItems.map((i) => {
     const item = i;
-    try{
+    try {
       // NOTE:
       // to work completion in string(e.g literal("xxx.yyy"))
       // Turn on setting editor.quickSuggestions: true
@@ -32,15 +32,15 @@ export async function activate(context: ExtensionContext) {
       //   ...
       //   "strings": true
       // }
-      if(isEmpty(item.value) || isEmpty(item.key)){
+      if (isEmpty(item.value) || isEmpty(item.key)) {
         return null;
       }
 
       const completion = new CompletionItem(item.key, CompletionItemKind.Text);
-      completion.documentation = new MarkdownString(item.value.toString());
+      completion.documentation = new MarkdownString(item.value!.toString());
       return completion;
 
-    } catch(err) {
+    } catch (err) {
       window.showErrorMessage(`Ooops, fail to parse item key: ${item.key}, value: ${item.value}, ${err.message}, now you have chance to contribute😆`);
       return null;
     }
@@ -57,30 +57,33 @@ export async function activate(context: ExtensionContext) {
   const definitionProvider = languages.registerDefinitionProvider({ scheme: 'file', language: 'javascript' }, {
     provideDefinition(document: TextDocument, position: Position, token: CancellationToken) {
 
-      try{
+      try {
         // Read focused line
         const line = document.lineAt(position);
 
         // Try to extract yaml key with Regex
         // TODO: hanlde single quatation
-        const result = line.text.match(/.*i18n.t\("(?<yamlKey>.*)"\).*/);
+        const yamlKeyArgFunctions = config.yamlKeyArgFunctions;
+        const regex = `.*${yamlKeyArgFunctions[0]}\\(\"(?<yamlKey>.*)\"\\).*`;
+        const result = line.text.match(regex);
         const yamlKey = result?.groups?.yamlKey;
         // Return if not yamlKey
-        if (isUndefined(yamlKey)) { 
+        if (isUndefined(yamlKey)) {
           console.log("yamlKey not found", line.text);
-          return; 
+          return;
         }
 
         // Find corresponding yaml item by yamlKey
         const item = yamlItems.find((item) => item.key === yamlKey);
         // TODO: Showing no yaml key
-        if (isUndefined(item)) { 
+        if (isUndefined(item)) {
           console.log("item not found", yamlKey);
-          return; }
+          return;
+        }
         const range = new Range(new Position(item.lineNumber, 0), new Position(item.lineNumber, 0));
         const location = new Location(Uri.file(item.path), range);
         return location;
-      } catch(err) {
+      } catch (err) {
         window.showErrorMessage(`Ooops, fail to provide definitions, now you have chance to contribute https://github.com/kazuooooo/yaml-x 😁`);
         console.error("err", err);
       }
