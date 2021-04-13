@@ -12,7 +12,8 @@ import {
   Location,
   Range,
   Uri,
-  CompletionItemKind
+  CompletionItemKind,
+  window,
 } from 'vscode';
 import { parse } from 'yaml';
 import { Parser } from "./parser";
@@ -21,7 +22,9 @@ import { flattenDeep, isUndefined, isEmpty, compact, isNull } from 'lodash';
 
 export async function activate(context: ExtensionContext) {
   let yamlItems: YamlItem[] = await parseYamlFiles();
+
   const completions = compact(yamlItems.map((i) => {
+    const item = i;
     try{
       // NOTE:
       // to work completion in string(e.g literal("xxx.yyy"))
@@ -30,15 +33,16 @@ export async function activate(context: ExtensionContext) {
       //   ...
       //   "strings": true
       // }
-      if(isEmpty(i.value) || isEmpty(i.key)){
+      if(isEmpty(item.value) || isEmpty(item.key)){
         return null;
       }
-  
-      const completion = new CompletionItem(i.key, CompletionItemKind.Text);
-      completion.documentation = new MarkdownString(i.value.toString());
+
+      const completion = new CompletionItem(item.key, CompletionItemKind.Text);
+      completion.documentation = new MarkdownString(item.value.toString());
       return completion;
 
     } catch(err) {
+      window.showErrorMessage(`Ooops, fail to parse item key: ${item.key}, value: ${item.value}, ${err.message}, now you have chance to contribute😆`);
       return null;
     }
   }));
@@ -73,11 +77,11 @@ export async function activate(context: ExtensionContext) {
         if (isUndefined(item)) { 
           console.log("item not found", yamlKey);
           return; }
-  
         const range = new Range(new Position(item.lineNumber, 0), new Position(item.lineNumber, 0));
         const location = new Location(Uri.file(item.path), range);
         return location;
       } catch(err) {
+        window.showErrorMessage(`Ooops, fail to provide definitions, now you have chance to contribute https://github.com/kazuooooo/yaml-x 😁`);
         console.error("err", err);
       }
     }
@@ -94,7 +98,7 @@ const parseYamlFiles = async (): Promise<YamlItem[]> => {
   if (!folder) { return []; }
 
   // List yml,yaml file uris in the folder
-  const relativePath = new RelativePattern(folder, 'config/locales/**/*.{yml,yaml}');
+  const relativePath = new RelativePattern(folder, '**/*.{yml,yaml}');
   const uris = await workspace.findFiles(relativePath);
 
   // Parse yaml files to YamlItems
