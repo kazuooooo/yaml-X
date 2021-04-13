@@ -18,19 +18,19 @@ describe('Parser', function () {
         {
           key: "hoge",
           value: null,
-          lineNumber: 1,
+          lineNumber: 0,
           path: filePath
         },
         {
           key: "hoge.baz",
           value: "Baz",
-          lineNumber: 2,
+          lineNumber: 1,
           path: filePath
         },
         {
           key: "hoge.foo",
           value: "Foo",
-          lineNumber: 3,
+          lineNumber: 2,
           path: filePath
         }
       ];
@@ -49,19 +49,19 @@ describe('Parser', function () {
         {
           key: "hoge",
           value: null,
-          lineNumber: 1,
+          lineNumber: 0,
           path: filePath
         },
         {
           key: "hoge.baz",
           value: null,
-          lineNumber: 2,
+          lineNumber: 1,
           path: filePath
         },
         {
           key: "hoge.baz.foo",
           value: "Foo",
-          lineNumber: 3,
+          lineNumber: 2,
           path: filePath
         }
       ];
@@ -80,25 +80,25 @@ describe('Parser', function () {
         {
           key: "hoge",
           value: null,
-          lineNumber: 1,
+          lineNumber: 0,
           path: filePath
         },
         {
           key: "hoge.baz",
           value: "Baz",
-          lineNumber: 2,
+          lineNumber: 1,
           path: filePath
         },
         {
           key: "piyo",
           value: null,
-          lineNumber: 3,
+          lineNumber: 2,
           path: filePath
         },
         {
           key: "piyo.foo",
           value: "Foo",
-          lineNumber: 4,
+          lineNumber: 3,
           path: filePath
         }
       ];
