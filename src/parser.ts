@@ -31,7 +31,7 @@ export class Parser {
         const key = (item.key as any).value;
         return [
           {
-            key,
+            key: parentKey ? `${parentKey}.${key}` : key,
             value: null,
             lineNumber: this.findLineNumber(item.key),
             path: this.path

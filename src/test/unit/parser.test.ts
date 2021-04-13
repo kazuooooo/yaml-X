@@ -5,7 +5,7 @@ import { Parser } from '../../parser';
 
 describe('Parser', function () {
   describe('.parse', function () {
-    it('sample-1(Simple)', function () {
+    it('basic.yaml', function () {
       // Prepare
       const filePath = path.resolve(__dirname, "../../../sample-yml/basic.yaml");
       const yml = fs.readFileSync(filePath, 'utf8');
@@ -34,8 +34,37 @@ describe('Parser', function () {
           path: filePath
         }
       ];
-      console.log("expected", expected);
-      console.log("result", result);
+      assert.deepStrictEqual(result, expected);
+    });
+    it('nested.yaml', function () {
+      // Prepare
+      const filePath = path.resolve(__dirname, "../../../sample-yml/nested.yaml");
+      const yml = fs.readFileSync(filePath, 'utf8');
+
+      // Execute
+      const result = new Parser(filePath).parse(yml);
+
+      // Evaluate
+      const expected: YamlItem[] = [
+        {
+          key: "hoge",
+          value: null,
+          lineNumber: 1,
+          path: filePath
+        },
+        {
+          key: "hoge.baz",
+          value: null,
+          lineNumber: 2,
+          path: filePath
+        },
+        {
+          key: "hoge.baz.foo",
+          value: "Foo",
+          lineNumber: 3,
+          path: filePath
+        }
+      ];
       assert.deepStrictEqual(result, expected);
     });
   });
