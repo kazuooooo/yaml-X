@@ -21,17 +21,37 @@ import { excludeTopKey } from './helper';
 
 const config = workspace.getConfiguration("yaml-X");
 export async function activate(context: ExtensionContext) {
-  // Initialize
+
+  // Parse workspace yaml files to YamlItems
+  // Thse yaml items are used for completion and definition providres.
+  const parseYamlFiles = async (): Promise<YamlItem[]> => {
+    // Get WorkSpaceFolder
+    const folder = workspace.workspaceFolders?.[0];
+    if (!folder) { return []; }
+
+    // List yml,yaml file uris in the folder
+    const relativePath = new RelativePattern(folder, `${config.targetDir}/**/*.{yml,yaml}`);
+    const uris = await workspace.findFiles(relativePath);
+
+    if (uris.length === 0) {
+      window.showWarningMessage(`No yml/yaml files found. Plz check settings yaml-X.targetDir correctly.`);
+    }
+
+    // Parse yaml files to YamlItems
+    const items = await Promise.all(
+      uris.map(async (uri) => {
+        const rawData = await workspace.fs.readFile(uri);
+        const stringData = Buffer.from(rawData).toString('utf8');
+        const items = new Parser(uri.path).parse(stringData);
+        return items;
+      })
+    );
+    return compact(flattenDeep(items));
+  };
   let yamlItems: YamlItem[] = await parseYamlFiles();
 
-  const reloadItems = throttle(async (e) => {
-    if (!e?.document.uri.path.match(/ya?ml$/)) { return; }
-    yamlItems = await parseYamlFiles();
-    console.log(`${yamlItems.length} items loaded`);
-  }, 1000);
-  workspace.onDidChangeTextDocument(reloadItems);
-
-  const completions = compact(yamlItems.map((i) => {
+  // Completions
+  const loadCompletionsFromYamlItems = () => compact(yamlItems.map((i) => {
     const item = i;
     try {
       // NOTE:
@@ -59,6 +79,16 @@ export async function activate(context: ExtensionContext) {
       return null;
     }
   }));
+  let completions = loadCompletionsFromYamlItems();
+
+  const refresh = throttle(async (e) => {
+    if (!e?.document.uri.path.match(/ya?ml$/)) { return; }
+    yamlItems = await parseYamlFiles();
+    completions = loadCompletionsFromYamlItems();
+    console.log(`${yamlItems.length} items loaded`);
+  }, 1000);
+  workspace.onDidChangeTextDocument(refresh);
+
 
   // CompletionProvider
   const completionProvider = languages.registerCompletionItemProvider({ scheme: 'file', pattern: '**' }, {
@@ -121,31 +151,6 @@ export async function activate(context: ExtensionContext) {
   console.log("yaml-X: Loaded");
   context.subscriptions.push(completionProvider, definitionProvider);
 }
-
-const parseYamlFiles = async (): Promise<YamlItem[]> => {
-  // Get WorkSpaceFolder
-  const folder = workspace.workspaceFolders?.[0];
-  if (!folder) { return []; }
-
-  // List yml,yaml file uris in the folder
-  const relativePath = new RelativePattern(folder, `${config.targetDir}/**/*.{yml,yaml}`);
-  const uris = await workspace.findFiles(relativePath);
-
-  if (uris.length === 0) {
-    window.showWarningMessage(`No yml/yaml files found. Plz check settings yaml-X.targetDir correctly.`);
-  }
-
-  // Parse yaml files to YamlItems
-  const items = await Promise.all(
-    uris.map(async (uri) => {
-      const rawData = await workspace.fs.readFile(uri);
-      const stringData = Buffer.from(rawData).toString('utf8');
-      const items = new Parser(uri.path).parse(stringData);
-      return items;
-    })
-  );
-  return compact(flattenDeep(items));
-};
 
 // this method is called when your extension is deactivated
 export function deactivate() { }
