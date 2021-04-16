@@ -1,6 +1,5 @@
 import {
   Position,
-  CancellationToken,
   TextDocument,
   workspace
 } from 'vscode';
@@ -15,8 +14,7 @@ export const extractYamlKeyOfCurrentLine = (document: TextDocument, position: Po
   const line = document.lineAt(position);
 
   // Try to extract yaml key with Regex
-  const yamlKeyArgFunctions = config.yamlKeyArgFunctions;
-  const regex = `.*${yamlKeyArgFunctions[0]}\\((\"|\'|\`)(?<yamlKey>.*)(\"|\'|\`)\\).*`;
+  const regex = `.*${config.yamlKeyArgFunction}\\((\"|\'|\`)(?<yamlKey>.*)(\"|\'|\`)\\).*`;
   const result = line.text.match(regex);
   const yamlKey = result?.groups?.yamlKey;
   return yamlKey;
