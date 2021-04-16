@@ -29,13 +29,11 @@ export async function activate(context: ExtensionContext) {
   // CompletionProvider
   const completionProvider = languages.registerCompletionItemProvider({ scheme: 'file', pattern: '**' }, {
     provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext) {
-      const yamlKey = extractYamlKeyOfCurrentLine(document, position);
-      // No yaml key
-      if (isUndefined(yamlKey)) {
-        console.log("yaml key not found");
+      const isInputingYamlKey = !isUndefined(extractYamlKeyOfCurrentLine(document, position));
+      if (isUndefined(isInputingYamlKey)) {
+        // Not yaml key
         return;
       }
-
       return completions;
     }
   });
