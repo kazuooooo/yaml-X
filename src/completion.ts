@@ -33,7 +33,7 @@ export const buildCompletionFromYamlItems = (yamlItems: YamlItem[]) => compact(y
     return completion;
 
   } catch (err) {
-    window.showErrorMessage(`Ooops, fail to parse item key: ${item.key}, value: ${item.value}, ${err.message}, now you have chance to contribute😆`);
+    console.log(`Ooops, fail to parse item key: ${item.key}, value: ${item.value}, ${err.message}, now you have chance to contribute😆`);
     return null;
   }
 }));

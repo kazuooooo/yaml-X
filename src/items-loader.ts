@@ -22,7 +22,7 @@ export const loadYamlItems = async (): Promise<YamlItem[]> => {
   const uris = await workspace.findFiles(relativePath);
 
   if (uris.length === 0) {
-    window.showWarningMessage(`No yml/yaml files found. Plz check settings yaml-X.targetDir correctly.`);
+    window.showWarningMessage(`No yml/yaml files found. Please check settings yaml-X.targetDir correctly.`);
   }
 
   // Parse yaml files to YamlItems

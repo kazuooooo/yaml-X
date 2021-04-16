@@ -44,7 +44,7 @@ export const findDefinition = (document: TextDocument, position: Position, token
     const location = new Location(Uri.file(item.path), range);
     return location;
   } catch (err) {
-    window.showErrorMessage(`Ooops, fail to provide definitions, now you have chance to contribute https://github.com/kazuooooo/yaml-x 😁`);
+    console.log(`Ooops, fail to provide definitions, now you have chance to contribute https://github.com/kazuooooo/yaml-X 😁`);
     console.error("err", err);
   }
 };
