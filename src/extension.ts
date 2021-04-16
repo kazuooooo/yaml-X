@@ -78,26 +78,31 @@ export async function activate(context: ExtensionContext) {
         // Try to extract yaml key with Regex
         // TODO: hanlde single quatation
         const yamlKeyArgFunctions = config.yamlKeyArgFunctions;
-        const regex = `.*${yamlKeyArgFunctions[0]}\\(\"(?<yamlKey>.*)\"\\).*`;
+        const regex = `.*${yamlKeyArgFunctions[0]}\\((\"|\'|\`)(?<yamlKey>.*)(\"|\'|\`)\\).*`;
         const result = line.text.match(regex);
         const yamlKey = result?.groups?.yamlKey;
 
         // No yaml key
         if (isUndefined(yamlKey)) {
-          console.log("yamlKey not found", line.text);
+          console.log("yaml key not found", line.text);
           return;
         }
 
         // Not select yaml key
         const selectWord = document.getText(document.getWordRangeAtPosition(position));
         if (!yamlKey?.includes(selectWord)) {
+          console.log("Not select yaml key", line.text);
           return;
         }
+
         const parentKey = yamlKey.split(selectWord)[0];
-        const selectedKey = `${parentKey}${selectWord}`;
+        let selectedKey = `${parentKey}${selectWord}`;
 
         // Find corresponding yaml item by yamlKey
-        const item = yamlItems.find((item) => item.key === selectedKey);
+        const item = yamlItems.find((item) => {
+          const targetKey = config.excludeTopKeyForCompletion ? excludeTopKey(item.key) : item.key;
+          return targetKey === selectedKey;
+        });
         if (isUndefined(item)) {
           // TODO: QuickFix by inserting not found yaml key.
           console.log("item not found", yamlKey);
