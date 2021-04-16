@@ -17,6 +17,7 @@ import {
 } from 'vscode';
 import { Parser } from "./parser";
 import { flattenDeep, isUndefined, isEmpty, compact, throttle } from 'lodash';
+import { excludeTopKey } from './helper';
 
 const config = workspace.getConfiguration("yaml-X");
 export async function activate(context: ExtensionContext) {
@@ -46,6 +47,11 @@ export async function activate(context: ExtensionContext) {
 
       const completion = new CompletionItem(item.key, CompletionItemKind.Text);
       completion.documentation = new MarkdownString(item.value!.toString());
+
+      if (config.excludeTopKeyForCompletion) {
+        completion.insertText = excludeTopKey(item.key);
+      }
+
       return completion;
 
     } catch (err) {

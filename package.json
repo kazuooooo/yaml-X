@@ -26,7 +26,7 @@
         "yaml-X.excludeTopKeyForCompletion": {
           "type": "boolean",
           "default": false,
-          "description": "Ignore top key competion. It's useful if you use locale file which has top key like en.xxxx.yyyy"
+          "description": "Ignore top key competion. It's useful if you use locale file which has top key like en.xxxx.yyyy \nand want completion like xxxx.yyyy without top key"
         },
         "yaml-X.yamlKeyArgFunctions": {
           "type": "array",
