@@ -55,14 +55,14 @@ export async function activate(context: ExtensionContext) {
   }));
 
   // CompletionProvider
-  const completionProvider = languages.registerCompletionItemProvider('javascript', {
+  const completionProvider = languages.registerCompletionItemProvider({ scheme: 'file', pattern: '**' }, {
     provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext) {
       return completions;
     }
   });
 
   // Definition
-  const definitionProvider = languages.registerDefinitionProvider({ scheme: 'file', language: 'javascript' }, {
+  const definitionProvider = languages.registerDefinitionProvider({ scheme: 'file', pattern: '**' }, {
     provideDefinition(document: TextDocument, position: Position, token: CancellationToken) {
 
       try {
@@ -111,7 +111,6 @@ export async function activate(context: ExtensionContext) {
   context.subscriptions.push(completionProvider, definitionProvider);
 }
 
-// TODO: トップのenやjaを落とす対応を落とす対応
 const parseYamlFiles = async (): Promise<YamlItem[]> => {
   // Get WorkSpaceFolder
   const folder = workspace.workspaceFolders?.[0];
