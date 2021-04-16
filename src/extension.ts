@@ -98,8 +98,8 @@ export async function activate(context: ExtensionContext) {
 
         // Find corresponding yaml item by yamlKey
         const item = yamlItems.find((item) => item.key === selectedKey);
-        // TODO: Showing no yaml key
         if (isUndefined(item)) {
+          // TODO: QuickFix by inserting not found yaml key.
           console.log("item not found", yamlKey);
           return;
         }
