@@ -1,70 +1,80 @@
-# yml README
+# **yaml-X README**
 
-This is the README for your extension "yml". After writing up a brief description, we recommend including the following sections.
+yaml-X is a vscode extension for boosting your yaml experience 🔥
 
-## Features
+If you are struggling find and input target yaml key from  project's innumerable yaml files, this extension should save you 💪
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## **Features**
 
-For example if there is an image subfolder under your extension project workspace:
+yaml-X indexes your workspace yaml(yml) files, then you can find the key and values from your editor.
 
-\!\[feature X\]\(images/feature-x.png\)
+### Auto Completion
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Provides suggestions and completion when you input yaml keys.
 
-## Requirements
+[ここにgifを入れる](プロジェクト内の)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+If you input yaml key without top locale key(like en, ja)
 
-## Extension Settings
+You can exclude top key by setting
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Definition Jump
 
-For example:
+Jump to a yaml key definition when you focus a yaml key.
 
-This extension contributes the following settings:
+[ここにgifを入れる]
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+### Check values without opening yaml files
 
-## Known Issues
+Both Auto Completion and Definition Jump has a feature for checking values without opening yaml files.
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+[ここにgifを入れる]
 
-## Release Notes
+**## Requirements**
 
-Users appreciate release notes as you update your extension.
+To use this extension, you need 2(and optionally 1) settings first.
 
-### 1.0.0
+[Reauired] **TargetDir**
 
-Initial release of ...
+Target yaml dir path which includes yaml(yml) files. 
 
-### 1.0.1
+Set relative path from project root dir.
 
-Fixed issue #.
+⚠️Do not need ./⚠️
 
-### 1.1.0
+ e.g) src/locale
 
-Added features X, Y, and Z.
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd15c794-3f45-4dce-8a57-0fd096b2c34d/_Extension_Development_Host__-_Settings__tmp.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd15c794-3f45-4dce-8a57-0fd096b2c34d/_Extension_Development_Host__-_Settings__tmp.jpg)
 
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
+[Reauired] **yamlKeyArgFunction**
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+Function name which use yaml key as argument.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+e.g) i18n.t
 
-## Working with Markdown
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f5419853-db55-49f5-9949-1a423172d827/_Extension_Development_Host__-_Settings__tmp.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f5419853-db55-49f5-9949-1a423172d827/_Extension_Development_Host__-_Settings__tmp.jpg)
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+yaml-X uses this function name as part of regex to find yaml keys like this.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+```tsx
+const regex = `.*${config.yamlKeyArgFunction}\\((\"|\'|\`)(?<yamlKey>.*)(\"|\'|\`)\\).*`;
+```
 
-### For more information
+(Optional) **excludeTopKeyForCompletion**
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+It's useful setting if you input yaml key for translation without top language key(like ja, en)
 
-**Enjoy!**
+By setting this value true, yaml-X suggest full key, but omit top key from input value.
+
+**## FAQ**
+
+**## Release Notes**
+
+**### 1.0.0**
+
+Initial release 🎉
+
+Basic 2 features are relaased
+
+- Autocompletion
+- Defintion jump

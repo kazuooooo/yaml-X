@@ -21,7 +21,7 @@
         "yaml-X.targetDir": {
           "type": "string",
           "default": null,
-          "description": "Target Yaml dir. Relative path from project root dir. ⚠️Do not need ./ e.g) src/locale"
+          "description": "Target yaml dir path which includes yaml(yml) files. Set relative path from project root dir.\n⚠️Do not need ./⚠️\n e.g) src/locale"
         },
         "yaml-X.excludeTopKeyForCompletion": {
           "type": "boolean",
@@ -31,7 +31,7 @@
         "yaml-X.yamlKeyArgFunction": {
           "type": "string",
           "default": "t",
-          "description": "Function name which use yaml key as argument. e.g) i18n.t"
+          "description": "Function name which use yaml key as argument.\ne.g) i18n.t"
         }
       }
     }
