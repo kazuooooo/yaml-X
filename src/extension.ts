@@ -118,7 +118,6 @@ const parseYamlFiles = async (): Promise<YamlItem[]> => {
   if (!folder) { return []; }
 
   // List yml,yaml file uris in the folder
-  console.log("config", config);
   const relativePath = new RelativePattern(folder, `${config.targetDir}/**/*.{yml,yaml}`);
   const uris = await workspace.findFiles(relativePath);
 
