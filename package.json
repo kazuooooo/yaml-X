@@ -23,7 +23,7 @@
           "default": null,
           "description": "Target yaml dir path which includes yaml(yml) files. Set relative path from project root dir.\n⚠️Do not need ./⚠️\n e.g) src/locale"
         },
-        "yaml-X.excludeTopKeyForCompletion": {
+        "yaml-X.excludeTopKey": {
           "type": "boolean",
           "default": false,
           "description": "Ignore top key competion. It's useful if you use locale file which has top key like en.xxxx.yyyy \nand want completion like xxxx.yyyy without top key"

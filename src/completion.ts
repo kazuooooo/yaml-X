@@ -26,7 +26,7 @@ export const buildCompletionFromYamlItems = (yamlItems: YamlItem[]) => compact(y
     const completion = new CompletionItem(item.key, CompletionItemKind.Text);
     completion.documentation = new MarkdownString(item.value!.toString());
 
-    if (config.excludeTopKeyForCompletion) {
+    if (config.excludeTopKey) {
       completion.insertText = excludeTopKey(item.key);
     }
 

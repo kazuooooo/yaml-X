@@ -32,7 +32,7 @@ export const findDefinition = (document: TextDocument, position: Position, token
 
     // Find corresponding yaml item by yamlKey
     const item = yamlItems.find((item) => {
-      const targetKey = config.excludeTopKeyForCompletion ? excludeTopKey(item.key) : item.key;
+      const targetKey = config.excludeTopKey ? excludeTopKey(item.key) : item.key;
       return targetKey === selectedKey;
     });
     if (isUndefined(item)) {
