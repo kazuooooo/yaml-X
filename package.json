@@ -5,7 +5,7 @@
   "repository": "https://github.com/kazuooooo/yaml-x",
   "description": "yaml Auto Completion & Definition Jump, Boost your yaml experience 🚀",
   "icon": "icon.png",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.55.0"
   },
