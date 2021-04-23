@@ -1,38 +1,41 @@
 # **yaml-X README**
-
-yaml-X is a vscode extension for boosting your yaml experience 🔥
+Boost your yaml experience 🚀
+yaml-X is a vscode extension it can yaml Auto Completion & Definition Jump, 
 
 If you are struggling find and input target yaml key from  project's innumerable yaml files, this extension should save you 💪
 
-## **Features**
+# **Features**
 
 yaml-X indexes your workspace yaml(yml) files, then you can find the key and values from your editor.
 
-### Auto Completion
-
+## Auto Completion
 Provides suggestions and completion when you input yaml keys.
+\!\[Auto Completion\]\(./README_assets/movies/auto_completion.mov\)
 
-[ここにgifを入れる](プロジェクト内の)
 
-If you input yaml key without top locale key(like en, ja)
-
-You can exclude top key by setting
-
-### Definition Jump
-
+## Definition Jump
 Jump to a yaml key definition when you focus a yaml key.
+\!\[Auto Completion\]\(./README_assets/movies/auto_completion.mov\)
 
-[ここにgifを入れる]
-
-### Check values without opening yaml files
-
-Both Auto Completion and Definition Jump has a feature for checking values without opening yaml files.
-
-[ここにgifを入れる]
+### Support Exclude Locale yaml top key
+If you use yaml for locale files, and want to exclude top locale keys(like en, ja).
+You can exclude these keys by setting `excludeTopKey`
+\!\[Auto Completion\]\(./README_assets/movies/support_locale.mov\)
 
 **## Requirements**
+First off, you need to turn on `editor.quickSuggestions.strings` to work Auto Completion in your `settings.json`
 
-To use this extension, you need 2(and optionally 1) settings first.
+```json
+...
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+...
+```
+
+Second, you need 2(and optionally 1) settings first.
 
 [Reauired] **TargetDir**
 
@@ -44,7 +47,8 @@ Set relative path from project root dir.
 
  e.g) src/locale
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd15c794-3f45-4dce-8a57-0fd096b2c34d/_Extension_Development_Host__-_Settings__tmp.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd15c794-3f45-4dce-8a57-0fd096b2c34d/_Extension_Development_Host__-_Settings__tmp.jpg)
+\!\[TargetDir\]\(./README_assets/images/target_dir.jpg\)
+
 
 [Reauired] **yamlKeyArgFunction**
 
@@ -52,7 +56,7 @@ Function name which use yaml key as argument.
 
 e.g) i18n.t
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f5419853-db55-49f5-9949-1a423172d827/_Extension_Development_Host__-_Settings__tmp.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f5419853-db55-49f5-9949-1a423172d827/_Extension_Development_Host__-_Settings__tmp.jpg)
+\!\[yamlKeyArgFunction\]\(./README_assets/images/function.jpg\)
 
 yaml-X uses this function name as part of regex to find yaml keys like this.
 
@@ -60,16 +64,14 @@ yaml-X uses this function name as part of regex to find yaml keys like this.
 const regex = `.*${config.yamlKeyArgFunction}\\((\"|\'|\`)(?<yamlKey>.*)(\"|\'|\`)\\).*`;
 ```
 
-(Optional) **excludeTopKeyForCompletion**
-
+(Optional) **excludeTopKey**
+\!\[excludeTopKey\]\(./README_assets/images/exclude_top_key.jpg\)
 It's useful setting if you input yaml key for translation without top language key(like ja, en)
-
 By setting this value true, yaml-X suggest full key, but omit top key from input value.
 
-**## FAQ**
+<!-- **## FAQ** -->
 
 **## Release Notes**
-
 **### 1.0.0**
 
 Initial release 🎉

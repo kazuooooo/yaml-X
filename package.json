@@ -2,7 +2,9 @@
   "name": "yaml-x",
   "displayName": "yaml-X",
   "publisher": "kazuwombat",
-  "description": "",
+  "repository": "https://github.com/kazuooooo/yaml-x",
+  "description": "yaml Auto Completion & Definition Jump, Boost your yaml experience 🚀",
+  "icon": "icon.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.55.0"
