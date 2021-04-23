@@ -1,4 +1,4 @@
-# yaml-X
+# [yaml-X](https://marketplace.visualstudio.com/items?itemName=kazuwombat.yaml-x)
 
 ![icon](https://user-images.githubusercontent.com/6919381/115827049-b9fd8e00-a446-11eb-970e-335a71e32404.png)
 
@@ -26,6 +26,7 @@ Jump to a yaml key definition when you focus on a yaml key.
 
 If you use yaml for locale files and want to exclude top locale keys(like en, ja).
 You can exclude these keys by setting `excludeTopKey`
+
 ![support_locale](https://user-images.githubusercontent.com/6919381/115827521-59bb1c00-a447-11eb-8374-0d4349afdbbc.gif)
 
 
@@ -95,3 +96,13 @@ Basic 2 features are relaased
 
 - Autocompletion
 - Definition jump
+
+# Development
+Welcome to contribute yaml-x👍
+
+Just
+1. Fork it.
+2. Make it.
+3. Pull Request
+
+There are some [upcomming features](https://github.com/kazuooooo/yaml-X/issues) you can contribute.
